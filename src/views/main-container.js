@@ -56,7 +56,7 @@ const MainContainer = () => {
 
   const onConnect = (params) =>
     setElements((els) => {
-      return addEdge({ ...params, type: "step" }, els);
+      return addEdge({ ...params, type: "smoothstep" }, els);
     });
   const onElementsRemove = (elementsToRemove) =>
     setElements((els) => {
