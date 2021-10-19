@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/react-flow-demo/static/css/main.bb3657ab.chunk.css",
-    "main.js": "/react-flow-demo/static/js/main.896ffde6.chunk.js",
-    "main.js.map": "/react-flow-demo/static/js/main.896ffde6.chunk.js.map",
+    "main.js": "/react-flow-demo/static/js/main.7fe41bcb.chunk.js",
+    "main.js.map": "/react-flow-demo/static/js/main.7fe41bcb.chunk.js.map",
     "runtime-main.js": "/react-flow-demo/static/js/runtime-main.99ce04c9.js",
     "runtime-main.js.map": "/react-flow-demo/static/js/runtime-main.99ce04c9.js.map",
     "static/css/2.a95be28f.chunk.css": "/react-flow-demo/static/css/2.a95be28f.chunk.css",
@@ -20,6 +20,6 @@
     "static/css/2.a95be28f.chunk.css",
     "static/js/2.cbc1528d.chunk.js",
     "static/css/main.bb3657ab.chunk.css",
-    "static/js/main.896ffde6.chunk.js"
+    "static/js/main.7fe41bcb.chunk.js"
   ]
 }
