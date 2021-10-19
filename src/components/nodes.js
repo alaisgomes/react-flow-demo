@@ -108,7 +108,7 @@ export const initialElements = [
     target: "1",
     targetHandle: null,
     id: "reactflow__edge-3diamond-2-1null",
-    label: "smoothstep",
+    label: "Yes",
     arrowHeadType: "arrowclosed",
     labelStyle: { fill: "green", fontWeight: 700 },
   },
