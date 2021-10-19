@@ -10,7 +10,6 @@ import ReactFlow, {
 import { nodeTypes, initialElements } from "../components/nodes";
 import Sidebar from "../components/sidebar";
 
-
 let id = 0;
 const getId = () => `dndnode_${id++}`;
 
@@ -55,7 +54,10 @@ const MainContainer = () => {
     }
   };
 
-  const onConnect = (params) => setElements((els) => addEdge(params, els));
+  const onConnect = (params) =>
+    setElements((els) => {
+      return addEdge({ ...params, type: "step" }, els);
+    });
   const onElementsRemove = (elementsToRemove) =>
     setElements((els) => {
       return removeElements(elementsToRemove, els);

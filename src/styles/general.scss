@@ -19,18 +19,14 @@ $tertiaryColor: #ea5f57;
     outline: 1px solid $tertiaryColor;
   }
 }
-.react-flow__edge.react-flow__edge-default {
+.react-flow__edge {
   .react-flow__edge-path {
-    stroke-width: 2;
+    stroke-width: 1.5;
     stroke: #1e0a45;
   }
   &.selected {
     .react-flow__edge-path {
-      stroke: $tertiaryColor;
-    }
-    #react-flow__arrowclosed {
       stroke: $tertiaryColor !important;
-      fill: $tertiaryColor !important;
     }
   }
 }
