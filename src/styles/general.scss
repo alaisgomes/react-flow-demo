@@ -38,11 +38,11 @@ $tertiaryColor: #ea5f57;
 }
 
 .dndflow aside {
-  border-right: 1px solid #eee;
   padding: 2rem 1rem;
   font-size: 12px;
   background: #fcfcfc;
   height: 100vh;
+  overflow-y: auto;
 }
 
 .dndflow aside > * {
@@ -57,7 +57,6 @@ $tertiaryColor: #ea5f57;
 .dndflow .reactflow-wrapper {
   flex-grow: 1;
   height: 100%;
-  width: 1px solid black;
 }
 
 @media screen and (min-width: 768px) {
@@ -67,14 +66,25 @@ $tertiaryColor: #ea5f57;
 
   .dndflow aside {
     width: 20%;
-    max-width: 350px;
-    border-left: 1px solid grey;
+    max-width: 250px;
+    &.right-bar {
+      border-left: 1px solid grey;
+    }
+    &.left-bar {
+      border-right: 1px solid grey;
+    }
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 767px) {
   .dndflow aside {
-    border-top: 1px solid gray;
+    height: 20%;
+    &.right-bar {
+      border-top: 1px solid grey;
+    }
+    &.left-bar {
+      border-bottom: 1px solid grey;
+    }
   }
 }
 
@@ -128,8 +138,32 @@ $tertiaryColor: #ea5f57;
   color: gray;
 }
 
-div[disabled]
-{
+div[disabled] {
   pointer-events: none;
   opacity: 0.9;
+}
+
+.edit-module {
+  .dnd-element {
+    &:hover {
+      border: 1px solid pink;
+    }
+    &.selected {
+      border: 1px solid lightblue;
+    }
+  }
+}
+
+.grabbable {
+  cursor: move;
+  cursor: grab;
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
+  padding: 5px;
+}
+
+.grabbable:active {
+  cursor: grabbing;
+  cursor: -moz-grabbing;
+  cursor: -webkit-grabbing;
 }

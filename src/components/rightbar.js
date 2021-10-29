@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Divider } from "antd";
 
 const Sidebar = ({ onUpdateName = null, selectedName = "", selected = null}) => {
@@ -7,7 +7,7 @@ const Sidebar = ({ onUpdateName = null, selectedName = "", selected = null}) => 
     event.dataTransfer.effectAllowed = "move";
   };
 
-  const showInput = selected && selected.id
+  const showInput = selected && selected.id && selected.data?.label
 
   const handleUpdateName = (label) => {
     if (onUpdateName && typeof onUpdateName === "function") {
@@ -16,8 +16,8 @@ const Sidebar = ({ onUpdateName = null, selectedName = "", selected = null}) => 
   };
 
   return (
-    <aside>
-      <h1>Sidebar</h1>
+    <aside className="right-bar">
+      <h1>Design & Elements</h1>
       <div className="description">
         These are just the default nodes, but we can also have our own custom
         ones. Drag and drop to canvas to test around.
