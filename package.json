@@ -12,9 +12,12 @@
     "classnames": "^2.3.1",
     "node-sass": "4.14",
     "react": "^17.0.2",
+    "react-color": "^2.19.3",
+    "react-colorful": "^5.5.0",
     "react-dom": "^17.0.2",
     "react-flow-renderer": "^9.6.9",
     "react-scripts": "4.0.3",
+    "use-debouncy": "^4.2.1",
     "web-vitals": "^1.0.1"
   },
   "scripts": {

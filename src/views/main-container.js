@@ -6,12 +6,14 @@ import ReactFlow, {
   removeElements,
   Controls,
   updateEdge,
+  Background,
 } from "react-flow-renderer";
 import { nodeTypes, initialElements, newElements } from "../components/nodes";
 import Rightbar from "../components/rightbar";
 import Leftbar from "../components/leftbar";
 import { addNode, selectNode } from "../context/utils";
 import { GlobalProvider } from "../context/global";
+
 
 let id = 0;
 const getId = () => `dndnode_${id++}`;
@@ -23,6 +25,8 @@ const MainContainer = () => {
   const [selected, setSelected] = useState(null);
   const [editElement, setEditElement] = useState(null);
   const [nodeName, setNodeName] = useState("");
+  const [colorList, setColorList] = useState([]);
+  const [currentColor, setCurrentColor] = useState(null);
 
   useEffect(() => {
     setElements((els) => {
@@ -40,10 +44,35 @@ const MainContainer = () => {
   }, [nodeName, selected, setElements]);
 
   useEffect(() => {
+    if (currentColor) {
+      if (!colorList.includes(currentColor)) {
+        let newList =
+          colorList.length >= 14
+            ? colorList.slice(colorList.length - 13)
+            : [...colorList];
+        newList.push(currentColor);
+        setColorList(newList);
+      }
+      setElements((els) => {
+        if (!selected?.data?.color) return els;
+        return els.map((el) => {
+          if (el.id === selected.id) {
+            el.data = {
+              ...el.data,
+              color: currentColor,
+            };
+          }
+          return el;
+        });
+      });
+    }
+  }, [currentColor, colorList, setColorList, setElements, selected]);
+
+  useEffect(() => {
     setElements((els) => {
       if (!selected)
         return els.map((el) => ({ ...el, selected: false, draggable: true }));
-        
+
       return els.map((el) => {
         if (el.id === selected.id) {
           el = {
@@ -61,16 +90,20 @@ const MainContainer = () => {
             };
           }
         }
-        
+
         return el;
       });
     });
   }, [editElement, selected, setElements]);
 
   const refreshSelected = (elements) => {
-    if (!elements || (selected && elements.find(el => el.id !== selected.id))) {
+    if (
+      !elements ||
+      (selected && elements.find((el) => el.id !== selected.id))
+    ) {
       setSelected(null);
       setNodeName("");
+      setCurrentColor("");
       setEditElement(null);
     }
   };
@@ -79,15 +112,20 @@ const MainContainer = () => {
     setNodeName(label);
   };
 
+  const onUpdateColor = (color) => {
+    setCurrentColor(color);
+  };
+
   const onElementClick = (event, element) => {
     if (element && (element.data?.label || element.type === "module")) {
       setSelected(element);
       if (element.data?.label) {
         setNodeName(element.data.label);
-        setEditElement(null)
+        setEditElement(null);
+        if (element.data.color) setCurrentColor(element.data.color);
       }
     } else {
-      refreshSelected()
+      refreshSelected();
     }
   };
 
@@ -95,7 +133,6 @@ const MainContainer = () => {
     setElements((els) => {
       return addEdge({ ...params, type: "smoothstep" }, els);
     });
-  
 
   const onElementsRemove = (elementsToRemove) =>
     setElements((els) => {
@@ -133,7 +170,7 @@ const MainContainer = () => {
 
       setElements((es) => es.concat(newNode));
     } else if (moduleElement) {
-      const data = JSON.parse(moduleElement)
+      const data = JSON.parse(moduleElement);
       if (data.module === selected.id) {
         const newTree = addNode(selected.data.domTree, newElements[data.type]);
         const moduleUpdated = {
@@ -177,11 +214,15 @@ const MainContainer = () => {
               deleteKeyCode={46} /* 'delete'-key */
             >
               <Controls />
+              <Background color="#aaa" gap={16} />
             </ReactFlow>
           </div>
           <Rightbar
             onUpdateName={onUpdateName}
             selectedName={nodeName}
+            color={currentColor}
+            colorList={colorList}
+            onColorUpdate={onUpdateColor}
             selected={selected}
           />
         </ReactFlowProvider>

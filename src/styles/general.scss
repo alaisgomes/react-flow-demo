@@ -1,4 +1,8 @@
 $tertiaryColor: #ea5f57;
+$customGrey:  #d9d9d9;
+$primary: #007bff;
+$backgroundColor: #1e0a45;
+$fontColor: #2c3e50;
 
 .react-flow__handle.target {
   background: #0041d0;
@@ -35,14 +39,16 @@ $tertiaryColor: #ea5f57;
   flex-direction: column;
   display: flex;
   height: 100vh;
+  
 }
 
 .dndflow aside {
-  padding: 2rem 1rem;
-  font-size: 12px;
+  padding: 2rem 0;
   background: #fcfcfc;
   height: 100vh;
   overflow-y: auto;
+  text-align: left;
+  font-size: 14px;
 }
 
 .dndflow aside > * {
@@ -68,10 +74,10 @@ $tertiaryColor: #ea5f57;
     width: 20%;
     max-width: 250px;
     &.right-bar {
-      border-left: 1px solid grey;
+      border-left: 1px solid $customGrey;
     }
     &.left-bar {
-      border-right: 1px solid grey;
+      border-right: 1px solid $customGrey;
     }
   }
 }
@@ -80,10 +86,10 @@ $tertiaryColor: #ea5f57;
   .dndflow aside {
     height: 20%;
     &.right-bar {
-      border-top: 1px solid grey;
+      border-top: 1px solid $customGrey;
     }
     &.left-bar {
-      border-bottom: 1px solid grey;
+      border-bottom: 1px solid $customGrey;
     }
   }
 }
@@ -93,6 +99,7 @@ $tertiaryColor: #ea5f57;
   border-style: solid;
   padding: 5px;
   border-radius: 3px;
+  margin: 10px 0;
   &.input {
     border-color: #0041d0;
   }
@@ -112,18 +119,19 @@ $tertiaryColor: #ea5f57;
   &.dndnode {
     z-index: 3;
     margin-left: 20px;
-  }
-  &:after {
-    position: absolute;
-    content: "";
-    top: 0px;
-    left: 0px;
-    height: 100%;
-    width: 100%;
-    transform: rotateX(45deg) rotateZ(45deg);
-    background-color: #fdffdf;
-    border: 1px solid black;
-    z-index: -1;
+
+    &:after {
+      position: absolute;
+      content: "";
+      top: 0px;
+      left: 0px;
+      height: 100%;
+      width: 100%;
+      transform: rotateX(45deg) rotateZ(45deg);
+      background-color: #fdffdf;
+      border: 1px solid $customGrey;
+      z-index: -1;
+    }
   }
 }
 .circle {
@@ -166,4 +174,44 @@ div[disabled] {
   cursor: grabbing;
   cursor: -moz-grabbing;
   cursor: -webkit-grabbing;
+}
+
+.ant-typograph {
+  color: $fontColor !important;
+}
+
+.picker {
+  width: 200px;
+  background: #f0f0f4;
+  border-radius: 9px;
+ .react-colorful {
+  width: auto;
+ }
+ .react-colorful__saturation-pointer {
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+}
+.react-colorful__hue-pointer,
+.react-colorful__alpha-pointer {
+  width: 16px;
+  border-radius: 3px;
+}
+}
+
+.picker__swatches {
+  display: flex;
+  padding: 12px;
+  flex-wrap: wrap;
+}
+
+.picker__swatch {
+  width: 18px;
+  height: 18px;
+  margin: 4px;
+  border: none;
+  padding: 0;
+  border-radius: 4px;
+  cursor: pointer;
+  outline: none;
 }

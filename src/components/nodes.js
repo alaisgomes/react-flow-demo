@@ -90,7 +90,7 @@ export const initialElements = [
       x: 626,
       y: 314,
     },
-    data: { label: "SUCCESS" },
+    data: { label: "SUCCESS", color: '#fdffdf' },
   },
   {
     id: "4",
