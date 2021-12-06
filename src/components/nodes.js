@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useRef} from "react";
 import { Diamond, Circle } from "./shapes";
 import { Handle } from "react-flow-renderer";
 import emailImage from "../assets/email.png";
@@ -6,6 +6,9 @@ import { DatabaseOutlined } from "@ant-design/icons";
 import { loginData, initStateWithUniqIds } from "./loginDemo";
 import CustomComponent from "./modules/component";
 import classNames from "classnames";
+import DragAndDropGrid from "./modules/draganddropexample";
+import ReactMoveable from "./modules/react-moveable/mainmovable";
+
 
 export const ImageNode = ({ data }) => {
   return (
@@ -43,11 +46,53 @@ export const ModuleNode = ({ data, selected }) => {
   );
 };
 
+export const DnDGrid = ({ data, selected }) => {
+  const classes = ["module-node", selected ? "edit-module" : ""];
+
+  return (
+    <div
+      className={classNames(classes)}
+      style={{
+        border: "1px solid #A3A3A3",
+        width: '300px',
+        height: '600px'
+      }}
+    >
+      <p>{data && data.title}</p>
+      <DragAndDropGrid />
+    </div>
+  );
+};
+
+export const Moveable = ({ data, selected }) => {
+  const classes = ["module-node", selected ? "edit-module" : ""];
+  const moveableRef = useRef(null);
+
+  const parentSize = moveableRef && moveableRef.current && moveableRef.current.getBoundingClientRect();
+
+  return (
+    <div
+      className={classNames(classes)}
+      ref={moveableRef}
+      style={{
+        border: "1px solid #A3A3A3",
+        width: '300px',
+        height: '600px'
+      }}
+    >
+      <p>{data && data.title}</p>
+      <ReactMoveable  data={data} parentSize={parentSize}/>
+    </div>
+  );
+};
+
 export const nodeTypes = {
   diamond: Diamond,
   circle: Circle,
   img: ImageNode,
   module: ModuleNode,
+  gridLayout: DnDGrid,
+  moveable: Moveable,
 };
 
 /** This is out default canvas with one of each proof of concept elements
@@ -203,3 +248,59 @@ export const newElements = {
     },
   },
 };
+
+export const DragAndDropElements = [
+  {
+    id: "99",
+    type: "gridLayout",
+    data: {
+      title: "draggable - No Lock on doubleclock",
+      forceMove: true
+    },
+    position: {
+      x: 98,
+      y: 122,
+    },
+  },
+
+  {
+    id: "88",
+    type: "gridLayout",
+    data: {
+      title: "draggable - Locked",
+      forceMove: false
+    },
+    position: {
+      x: 450,
+      y: 122,
+    },
+  },
+];
+
+export const moveableElements = [
+  {
+    id: "99",
+    type: "moveable",
+    data: {
+      title: "Moveable - No Lock on double-click",
+      forceMove: true
+    },
+    position: {
+      x: 98,
+      y: 122,
+    },
+  },
+
+  {
+    id: "88",
+    type: "moveable",
+    data: {
+      title: "Moveable - Locked (with bugs currently)",
+      forceMove: false
+    },
+    position: {
+      x: 450,
+      y: 122,
+    },
+  },
+];

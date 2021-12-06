@@ -8,12 +8,17 @@ import ReactFlow, {
   updateEdge,
   Background,
 } from "react-flow-renderer";
-import { nodeTypes, initialElements, newElements } from "../components/nodes";
+import {
+  nodeTypes,
+  initialElements,
+  newElements,
+  DragAndDropElements,
+  moveableElements,
+} from "../components/nodes";
 import Rightbar from "../components/rightbar";
 import Leftbar from "../components/leftbar";
 import { addNode, selectNode } from "../context/utils";
 import { GlobalProvider } from "../context/global";
-
 
 let id = 0;
 const getId = () => `dndnode_${id++}`;
@@ -27,6 +32,7 @@ const MainContainer = () => {
   const [nodeName, setNodeName] = useState("");
   const [colorList, setColorList] = useState([]);
   const [currentColor, setCurrentColor] = useState(null);
+  const [currentMode, setCurrentMode] = useState('default-1')
 
   useEffect(() => {
     setElements((els) => {
@@ -117,7 +123,10 @@ const MainContainer = () => {
   };
 
   const onElementClick = (event, element) => {
-    if (element && (element.data?.label || element.type === "module")) {
+    const selectedTypes = ["module", "gridLayout", "moveable"]
+    const lockElement = (el) => selectedTypes.includes(element.type) && !(el.data && el.data.forceMove)
+
+    if (element && (element.data?.label || lockElement(element))) {
       setSelected(element);
       if (element.data?.label) {
         setNodeName(element.data.label);
@@ -189,6 +198,24 @@ const MainContainer = () => {
     }
   };
 
+  const onToggleView = (e) => {
+    switch (e.key) {
+      case "drag-2":
+        setElements(DragAndDropElements);
+        setCurrentMode(e.key);
+        break;
+        case "drag-3":
+          setElements(moveableElements);
+          setCurrentMode(e.key);
+          break;
+      case "default-1":
+      default:
+        setElements(initialElements);
+        setCurrentMode(e.key);
+        break;
+    }
+  };
+
   return (
     <div className="dndflow">
       <GlobalProvider>
@@ -197,6 +224,7 @@ const MainContainer = () => {
             selected={selected}
             setEditElement={setEditElement}
             editElement={editElement}
+            onToggleView={onToggleView}
           />
           <div className="reactflow-wrapper" ref={reactFlowWrapper}>
             <ReactFlow

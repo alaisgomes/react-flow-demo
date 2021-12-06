@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
-import {  Tree, Input, Space, Row, Typography, Collapse } from "antd";
+import { Tree, Input, Space, Row, Typography, Collapse } from "antd";
 import { ItalicOutlined } from "@ant-design/icons";
 import { GlobalContext } from "../context/global";
+import { Menu } from "antd";
 
 const { Title, Paragraph } = Typography;
 const { Panel } = Collapse;
@@ -16,7 +17,12 @@ const filterInternal = (data) => {
     .filter((item) => !item.internal);
 };
 
-const Leftbar = ({ selected, setEditElement, editElement = null }) => {
+const Leftbar = ({
+  selected,
+  setEditElement,
+  onToggleView = () => {},
+  editElement = null,
+}) => {
   const treeData = filterInternal(
     selected?.data?.domTree ? [selected?.data?.domTree] : []
   );
@@ -69,10 +75,23 @@ const Leftbar = ({ selected, setEditElement, editElement = null }) => {
           Double click on the login module to see its properties.
         </Paragraph>
 
+        <Menu
+          onClick={onToggleView}
+          style={{ width: 256 }}
+          defaultSelectedKeys={["default-1"]}
+          mode="inline"
+        >
+          <Menu.Item key="default-1">Default Flow</Menu.Item>
+          <Menu.Item key="drag-2">React Draggable (GridLayout)</Menu.Item>
+          <Menu.Item key="drag-3">React Movable </Menu.Item>
+        </Menu>
+
         {isSelectedModule && (
           <div>
-            <Title style={{ padding: "0 10px" }} level={4}>Module: {selected.data.title}</Title>
-            <Collapse defaultActiveKey={['left-panel-1']}>
+            <Title style={{ padding: "0 10px" }} level={4}>
+              Module: {selected.data.title}
+            </Title>
+            <Collapse defaultActiveKey={["left-panel-1"]}>
               <Panel header="Element Tree" key="left-panel-1">
                 {treeData && (
                   <Tree
