@@ -1,86 +1,97 @@
-import React from "react";
+import React, { Fragment, useEffect, useState, useRef } from "react";
 import Moveable from "react-moveable";
 
-const MovableBox = ({ pos, Contents, bounds }) => {
-  const moveRef = React.useRef(null);
-  const [frame, setFrame] = React.useState({
-    translate: [0,0],
-});
+const MoveableElement = (props) => {
+  const {
+    onDragStart,
+    onDrag,
+    onEnd,
+    onResizeStart,
+    onResize,
+    onRotateStart,
+    onRotate,
+    container,
+    onUpdateRef,
+    shape,
+    index,
+  } = props;
 
-  const [style, setStyle] = React.useState({
-    background: "lightblue",
-    left: `${100 * pos}px`,
-    height: "90px",
-    width: "90px",
-    color: "grey"
-  });
-  // const handleDrag = e => {
-  //   setStyle(e.transform);
-  // };
+  const [bounds, setBounds] = useState({});
 
-  const onResizeStart = ({ target, clientX, clientY }) => {
-    // console.log("onResizeStart", target);
-  };
-  const onResize = ({
-    target,
-    width,
-    height,
-    dist,
-    delta,
-    direction,
-    clientX,
-    clientY
-  }) => {
+  const elementRef = useRef(null);
 
-    setStyle({
-      background: "white",
-      border: "2px solid red",
-      color: "gray"
-    });
-    target.style.width = `${width}px`;
-    target.style.height = `${height}px`;
-  
-  };
-  const onResizeEnd = ({ target, isDrag, clientX, clientY }) => {
-    // console.log("onResizeEnd", target, isDrag);
-  };
-  const onDragStart = (e) => {
-    e.set(frame.translate);
-  };
-  const onDrag = (e) => {
+  useEffect(() => {
+    if (container) {
+      const containerBounds = container.getBoundingClientRect();
+      // adjust according to canvas x and y positions
+      setBounds({
+        top: containerBounds.top - containerBounds.y,
+        bottom: containerBounds.bottom - containerBounds.y,
+        left: containerBounds.left - containerBounds.x,
+        right: containerBounds.right - containerBounds.x,
+      });
+    }
+  }, [container]);
 
-  frame.translate = e.beforeTranslate;
-      e.target.style.transform = `translate(${e.beforeTranslate[0]}px, ${e.beforeTranslate[1]}px)`;
-
-  };
-  const onDragEnd = ({ target, isDrag, clientX, clientY }) => {
-    // console.log("onDragEnd", target, isDrag);
-  };
+  useEffect(() => {
+    if (elementRef && elementRef.current) {
+      onUpdateRef(elementRef, index)
+    }
+  }, [elementRef])
 
   return (
-    <div>
-        <Moveable
-          pinchable={["resizable", "rotatable"]}
-          snappable={true}
-          resizable={true}
+    <Fragment key={index}>
+      <Moveable
+        key={index + 100}
+        target={elementRef && elementRef.current}
+        container={container}
+        origin={false}
+        keepRatio={false}
+        edge={true}
+        snappable={true}
+        snapThreshold={5}
+        snapCenter={false}
+        bounds={bounds}
+        verticalGuidelines={[100, 200, 300]}
+        horizontalGuidelines={[0, 100, 200]}
+        draggable={true}
+        onDragStart={onDragStart}
+        onDrag={onDrag.bind(this)}
+        onDragEnd={onEnd}
+        throttleDrag={1}
+        resizable={true}
+        onResizeStart={onResizeStart}
+        onResize={onResize}
+        onResizeEnd={onEnd}
+        throttleResize={1}
+        renderDirections={["nw", "n", "ne", "w", "e", "sw", "s", "se"]}
+        // rotatable={true}
+        onRotateStart={onRotateStart}
+        onRotate={onRotate.bind(this)}
+        onRotateEnd={onEnd}
+        throttleRotate={0.2}
+        rotationPosition={"top"}
 
-          target={moveRef && moveRef.current}
-          draggable={true}
-          throttleDrag={0}
-          onDrag={onDrag}
-          onDragStart={onDragStart}
-          onDragEnd={onDragEnd}
-          onResizeStart={onResizeStart}
-          onResize={onResize}
-          onResizeEnd={onResizeEnd}
-          bounds={bounds}
-          renderDirections={["nw","n","ne","w","e","sw","s","se"]}
-        />
-      <div ref={moveRef} style={style}>
-        <Contents />
+        // pinchable={["resizable"]}
+        // onPinch={this.onPinch}
+        // onPinchEnd={this.onEnd}
+        // pinchThreshold={20}
+      />
+
+      <div
+        style={{ overflow: "hidden", position: "absolute" }}
+        ref={elementRef}
+        id={`shape-${shape._id}`}
+      >
+        <span>
+          {" "}
+          This is my element <strong>{shape.name}</strong>
+        </span>
+        <br />
+        {`w:${shape.width}, h:${shape.height}, top:${shape.top}, left: ${shape.left}`}
       </div>
-    </div>
+    </Fragment>
   );
 };
 
-export default MovableBox
+export default MoveableElement;

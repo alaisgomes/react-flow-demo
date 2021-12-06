@@ -232,6 +232,7 @@ const MainContainer = () => {
               nodeTypes={nodeTypes}
               onConnect={onConnect}
               arrowHeadColor={"#1e0a45"}
+              paneMoveable={!selected}
               onElementsRemove={onElementsRemove}
               onLoad={onLoad}
               onDrop={onDrop}

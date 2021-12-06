@@ -1,4 +1,4 @@
-import React, {useRef} from "react";
+import React, { useRef } from "react";
 import { Diamond, Circle } from "./shapes";
 import { Handle } from "react-flow-renderer";
 import emailImage from "../assets/email.png";
@@ -8,7 +8,6 @@ import CustomComponent from "./modules/component";
 import classNames from "classnames";
 import DragAndDropGrid from "./modules/draganddropexample";
 import ReactMoveable from "./modules/react-moveable/mainmovable";
-
 
 export const ImageNode = ({ data }) => {
   return (
@@ -54,8 +53,8 @@ export const DnDGrid = ({ data, selected }) => {
       className={classNames(classes)}
       style={{
         border: "1px solid #A3A3A3",
-        width: '300px',
-        height: '600px'
+        width: "300px",
+        height: "600px",
       }}
     >
       <p>{data && data.title}</p>
@@ -68,20 +67,18 @@ export const Moveable = ({ data, selected }) => {
   const classes = ["module-node", selected ? "edit-module" : ""];
   const moveableRef = useRef(null);
 
-  const parentSize = moveableRef && moveableRef.current && moveableRef.current.getBoundingClientRect();
-
   return (
     <div
       className={classNames(classes)}
       ref={moveableRef}
       style={{
         border: "1px solid #A3A3A3",
-        width: '300px',
-        height: '600px'
+        width: "300px",
+        height: "600px",
       }}
     >
       <p>{data && data.title}</p>
-      <ReactMoveable  data={data} parentSize={parentSize}/>
+      <ReactMoveable data={data} selected={selected} parentRef={moveableRef} />
     </div>
   );
 };
@@ -135,7 +132,7 @@ export const initialElements = [
       x: 626,
       y: 314,
     },
-    data: { label: "SUCCESS", color: '#fdffdf' },
+    data: { label: "SUCCESS", color: "#fdffdf" },
   },
   {
     id: "4",
@@ -255,7 +252,7 @@ export const DragAndDropElements = [
     type: "gridLayout",
     data: {
       title: "draggable - No Lock on doubleclock",
-      forceMove: true
+      forceMove: true,
     },
     position: {
       x: 98,
@@ -268,7 +265,7 @@ export const DragAndDropElements = [
     type: "gridLayout",
     data: {
       title: "draggable - Locked",
-      forceMove: false
+      forceMove: false,
     },
     position: {
       x: 450,
@@ -283,7 +280,7 @@ export const moveableElements = [
     type: "moveable",
     data: {
       title: "Moveable - No Lock on double-click",
-      forceMove: true
+      forceMove: true,
     },
     position: {
       x: 98,
@@ -296,7 +293,7 @@ export const moveableElements = [
     type: "moveable",
     data: {
       title: "Moveable - Locked (with bugs currently)",
-      forceMove: false
+      forceMove: false,
     },
     position: {
       x: 450,
